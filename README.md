@@ -21,6 +21,21 @@ OPENNEURO_DSID="ds000030"
 BASEDIR=$SCRATCH/openneuro_datasets
 ```
 
+## cloning this repo into the home folder
+
+To get started let's make sure we have this scripts in the code folder
+
+```sh
+
+```
+
+## The final structure
+
+```
+
+
+```
+
 ```sh
 ## loading Erin's datalad environment on the SciNet system
 module load git-annex/8.20200618 # git annex is needed by datalad

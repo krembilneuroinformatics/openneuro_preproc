@@ -31,10 +31,11 @@ function cleanup_ramdisk {
 # that happens, so results may be saved.
 trap "cleanup_ramdisk" TERM
 
-# input is BIDS_DIR
+# input is BIDS_DIR this is where the data downloaded from openneuro went
 export BIDS_DIR=${BASEDIR}/${OPENNEURO_DSID}/bids
 
-## these folders envs need to be set up for this script to run properly - see top README
+## these folders envs need to be set up for this script to run properly 
+## see notebooks/00_setting_up_envs.md for the set up instructions
 export FMRIPREP_HOME=${BASEDIR}/fmriprep_home
 export SING_CONTAINER=${BASEDIR}/containers/fmriprep-20.2.7.simg
 
@@ -63,9 +64,11 @@ export SINGULARITYENV_FS_LICENSE=/home/fmriprep/.freesurfer.txt
 
 singularity run --cleanenv \
     -B ${BASEDIR}/fmriprep_home:/home/fmriprep --home /home/fmriprep \
+    -B ${BIDS_DIR}:/bids \
+    -B ${OUTPUT_DIR}:/derived \
     -B ${WORK_DIR}:/work \
     ${SING_CONTAINER} \
-    bids derived participant \
+    /bids /derived participant \
     --participant_label ${SUBJECTS} \
     -w /work \
     --skip-bids-validation \
