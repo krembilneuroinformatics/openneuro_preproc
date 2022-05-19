@@ -96,4 +96,21 @@ getting the kimel modules - note this only gets the ones that Dawn wrote for the
 ```sh
 source /KIMEL/tigrlab/quarantine/scc_modules.sh
 ```
+OPENNEURO_DSID
 
+```sh
+module load lang/Python/3.8.6-GCCcore-10.2.0
+cd $BASEDIR/envs
+virtualenv --prompt 'datalad' --activators bash,python $PWD/datalad-0-15-5
+source $PWD/bin/activate
+pip list --outdated | awk 'BEGIN {ORS = "\0"}
+                           $2 ~ /[[:digit:]]/ {print $1}' \
+                    | xargs -0 pip install --upgrade
+pip install -r requirements.txt
+pip install ipykernel
+```
+
+```
+python -m ipykernel install --prefix=$PWD/datalad-0-15-5 --name 'datalad' --display-name "Python (datalad)"
+
+```
