@@ -73,6 +73,9 @@ singularity run --cleanenv \
     -w /work \
     --skip-bids-validation \
     --omp-nthreads 8 \
+    --nthreads 40 \
+    --low-mem \
+    --mem-mb 12000 \
     --output-space T1w MNI152NLin2009cAsym \
     --use-aroma \
     --notrack \

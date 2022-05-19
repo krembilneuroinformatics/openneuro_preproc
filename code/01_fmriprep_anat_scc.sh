@@ -3,6 +3,7 @@
 #SBATCH --output=logs/%x_%j.out 
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=8
+#SBATCH --mem=24000
 #SBATCH --time=24:00:00
 
 
@@ -42,7 +43,7 @@ export SING_CONTAINER=${BASEDIR}/containers/fmriprep-20.2.7.simg
 ## setting up the output folders
 export OUTPUT_DIR=${BASEDIR}/${OPENNEURO_DSID}/derived/
 # export LOCAL_FREESURFER_DIR=${SCRATCH}/${STUDY}/data/derived/freesurfer-6.0.1
-export WORK_DIR=${BBUFFER}/${STUDY}/fmriprep
+export WORK_DIR=${BASEDIR}/${OPENNEURO_DSID}/work/
 export LOGS_DIR=${BASEDIR}/${OPENNEURO_DSID}/logs
 mkdir -vp ${OUTPUT_DIR} ${WORK_DIR} ${LOGS_DIR} # ${LOCAL_FREESURFER_DIR}
 
@@ -60,7 +61,6 @@ export SINGULARITYENV_FS_LICENSE=/home/fmriprep/.freesurfer.txt
 #     find ${LOCAL_FREESURFER_DIR}/sub-$subject/ -name "*IsRunning*" -type f -delete
 # done
 
-
 singularity run --cleanenv \
     -B ${BASEDIR}/fmriprep_home:/home/fmriprep --home /home/fmriprep \
     -B ${BIDS_DIR}:/bids \
@@ -72,11 +72,15 @@ singularity run --cleanenv \
     -w /work \
     --skip-bids-validation \
     --omp-nthreads 8 \
+    --nthreads 4 \
+    --low-mem \
+    --mem-mb 24000 \
     --output-space T1w MNI152NLin2009cAsym \
     --use-aroma \
     --notrack \
     --cifti-output 91k \
-    --anat-only 
+    --use-syn-sdc \
+    --ignore fieldmaps
 
 exitcode=$?
 
