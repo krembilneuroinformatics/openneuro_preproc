@@ -6,6 +6,7 @@
 #SBATCH --mem=24000
 #SBATCH --time=24:00:00
 
+module load tools/Singularity/3.8.5
 
 SUB_SIZE=1 ## number of subjects to run
 CORES=8
