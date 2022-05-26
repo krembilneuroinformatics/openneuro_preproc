@@ -238,3 +238,35 @@ sbatch --array=0-${array_job_length} ${BASEDIR}/code/openneuro_preproc/code/01_f
 
 
 ## QCing everything that has been done
+
+### python code for viewing a bunch o images in a notebook
+
+```py
+from IPython.display import Image
+from glob import glob
+
+image_list  =  glob('star/path/to/images')
+image_list.sort()
+
+for this_image in image_list:
+    print('/n')
+    print(this_image)
+    display(Image(filename=this_image)) 
+```
+
+copying all the fmriprep QA images into one subdirectory
+
+```sh
+QA_dir=${BASEDIR}/${OPENNEURO_DSID}/derived/fmriprep_QA_only
+FMRIPREP_dir=${BASEDIR}/${OPENNEURO_DSID}/derived/fmriprep
+
+mkdir -p ${QA_dir}
+
+subjects=`cd ${FMRIPREP_dir}; ls -1d sub-* | grep -v html`
+
+cp ${FMRIPREP_dir}/*html ${QA_dir}/
+for subject in ${subjects}; do
+ mkdir -p ${QA_dir}/${subject}/figures
+ rsync -av ${FMRIPREP_dir}/${subject}/figures ${QA_dir}/${subject}/figures
+done
+```
