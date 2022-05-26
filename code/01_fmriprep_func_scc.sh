@@ -81,7 +81,8 @@ singularity run --cleanenv \
     --notrack \
     --cifti-output 91k \
     --use-syn-sdc \
-    --ignore fieldmaps
+    --ignore fieldmaps \
+    --skull-strip-t1w skip 
 
 exitcode=$?
 
