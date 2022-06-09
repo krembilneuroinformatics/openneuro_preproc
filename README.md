@@ -259,7 +259,7 @@ echo "number of array is: ${N_SUBJECTS}"
 cd ${BASEDIR}/${OPENNEURO_DSID}
 mkdir -p logs
 
-sbatch --array=0-${array_job_length} ${BASEDIR}/code/openneuro_preproc/code/03_clean_and_parcellate_w_wb_container_scc.sh
+sbatch --array=0-${N_SUBJECTS} ${BASEDIR}/code/openneuro_preproc/code/03_clean_and_parcellate_w_wb_container_scc.sh
 ```
 
 

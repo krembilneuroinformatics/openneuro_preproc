@@ -18,7 +18,7 @@ BASEDIR=`dirname ${SLURM_SUBMIT_DIR}`
 
 ## use bash to find the location of the currently running script so I can find stuff relative to it
 CODEDIR=$(dirname "$0")
-echo "$CODEDIR"
+echo "the CODEDIR is $CODEDIR"
 
 ## note this needs to be in the same folder as this script for this to work
 clean_config=cleaning_settings.json
