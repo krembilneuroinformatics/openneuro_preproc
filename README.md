@@ -261,7 +261,7 @@ mkdir -p logs
 
 sbatch --array=0-${N_SUBJECTS} ${BASEDIR}/code/openneuro_preproc/code/03_clean_and_parcellate_w_wb_container_scc.sh
 ```
-
+Note: just for ds000201 - which was run with an older version of fmriprep - I needed to use `03_clean_and_parcellate_w_wb_container_scc_r.sh` spot the difference!
 
 ## QCing everything that has been done
 
