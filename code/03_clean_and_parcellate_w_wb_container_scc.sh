@@ -16,11 +16,9 @@ OPENNEURO_DSID=`basename ${SLURM_SUBMIT_DIR}`
 ## set the second environment variable to get the base directory
 BASEDIR=`dirname ${SLURM_SUBMIT_DIR}`
 
-## use bash to find the location of the currently running script so I can find stuff relative to it
-CODEDIR=$(dirname "$0")
+## this assumes that this repo is cloned into the place it's supposed to be (according ot the README)
+CODEDIR=${BASEDIR}/code/openneuro_preproc/code/
 echo "the CODEDIR is $CODEDIR"
-
-## note this needs to be in the same folder as this script for this to work
 clean_config=cleaning_settings.json
 
 ## note the dlabel file path must be a relative to the output folder
