@@ -4,7 +4,7 @@
 #SBATCH --time=00:30:00
 #SBATCH --export=ALL
 #SBATCH --job-name="cifti_parcellate"
-#SBATCH --output=cifti_parcellate_%j.txt
+#SBATCH --output=logs/cifti_parcellate_%j.txt
 
 module load tools/Singularity/3.8.5
 
