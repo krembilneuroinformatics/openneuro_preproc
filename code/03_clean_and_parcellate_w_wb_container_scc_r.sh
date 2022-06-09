@@ -86,7 +86,7 @@ sub="$(cut -f1 -nd "_" <<< "$func_base")"
 ses="$(cut -f2 -nd "_" <<< "$func_base")"
 task="$(cut -f3 -nd "_" <<< "$func_base")"
 container_dtseries=/fmriprep/${sub}/${ses}/func/${func_base}
-confounds_tsv=/fmriprep/${sub}/${ses}/func/${sub}_${ses}_${task}_desc-confounds_timeseries.tsv
+confounds_tsv=/fmriprep/${sub}/${ses}/func/${sub}_${ses}_${task}_desc-confounds_regressors.tsv
 cleaned_dtseries=cifti_clean/${sub}/${ses}/func/${sub}_${ses}_${task}_space-fsLR_den-91k_desc-cleaneds0_bold.dtseries.nii
 output_ptseries=parcellated/${atlas}/ptseries/${sub}/${ses}/func/${sub}_${ses}_${task}_${atlas}_desc-cleaneds0_bold.ptseries.nii
 output_csv=parcellated/${atlas}/csv/${sub}/${ses}/func/${sub}_${ses}_${task}_${atlas}_desc-cleaneds0_meants.csv
@@ -100,7 +100,7 @@ else
 sub="$(cut -f1 -nd "_" <<< "$func_base")"
 task="$(cut -f2 -nd "_" <<< "$func_base")"
 container_dtseries=/fmriprep/${sub}/func/${func_base}
-confounds_tsv=/fmriprep/${sub}/func/${sub}_${task}_desc-confounds_timeseries.tsv
+confounds_tsv=/fmriprep/${sub}/func/${sub}_${task}_desc-confounds_regressors.tsv
 cleaned_dtseries=cifti_clean/${sub}/func/${sub}_${task}_space-fsLR_den-91k_desc-cleaneds0_bold.dtseries.nii
 output_ptseries=parcellated/${atlas}/ptseries/${sub}/func/${sub}_${task}_${atlas}_desc-cleaneds0_bold.ptseries.nii
 output_csv=parcellated/${atlas}/csv/${sub}/func/${sub}_${task}_${atlas}_desc-cleaneds0_meants.csv
