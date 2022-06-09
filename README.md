@@ -231,10 +231,34 @@ cd ${BASEDIR}/${OPENNEURO_DSID}
 sbatch --array=0-${array_job_length} ${BASEDIR}/code/openneuro_preproc/code/01_fmriprep_func_scc.sh
 ```
 
-## cleaning?  - hopefully w cifti clean - but there are options
+## cleaning and parcellating - hpc script based
 
+We added a script to use the a singularity container to run `ciftify_clean_img` to run confound regression on the images and `wb_command -cifti-parcellate` to parcellate the timeseries into the Schaefer 100 parcels (7 network) parcellation.
 
-## parcellating data - with Shaefer
+To run the script on the SCC
+
+```sh
+## note step one is to make sure you are on one of the submit nodes
+ssh dev02
+
+module load tools/Singularity/3.8.5
+
+## don't forget to make sure that $BASEDIR and $OPENNEURO_DSID are defined..
+echo "the basedir is ${BASEDIR}"
+echo "the dataset is ${OPENNEURO_DSID}"
+
+## go to the repo and pull new changes
+cd ${BASEDIR}/code/openneuro_preproc
+git pull
+
+## figuring out appropriate array-job size
+N_SUBJECTS=$(( $( wc -l ${BASEDIR}/${OPENNEURO_DSID}/bids/participants.tsv | cut -f1 -d' ' ) - 1 ))
+echo "number of array is: ${N_SUBJECTS}"
+
+## submit the array job to the queue
+cd ${BASEDIR}/${OPENNEURO_DSID}
+sbatch --array=0-${array_job_length} ${BASEDIR}/code/openneuro_preproc/code/03_clean_and_parcellate_w_wb_container_scc.sh
+```
 
 
 ## QCing everything that has been done
