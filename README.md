@@ -5,7 +5,7 @@ testing if I can edit from scinet
 
 Steps required:
 
- - Before you start - [set these environment variables](#before-you-start---all-code-in-this-workflow-uses-two-environment-variables) 
+ - Before you start - [set these environment variables](#before-you-start---all-code-in-this-workflow-uses-two-environment-variables)
    - [clone this repo](#cloning-this-repo-into-the-home-folder)
    - [this is what the output will look like](#the-final-structure-this-repo-is-coded-to-work-with)
  - Downloading data
@@ -14,7 +14,7 @@ Steps required:
    - [Downloading Data with datalad](#using-datalad-to-install-a-download-a-dataset)
 - Running fMRIprep
   - [setting up fMRIprep container and env](#)
-  - 
+  -
 
 ## Before you start - all code in this workflow uses two environment variables
 
@@ -48,7 +48,7 @@ cd ${BASEDIR}/code
 git clone git@github.com:krembilneuroinformatics/openneuro_preproc.git
 ```
 
-Note: for this to work - you need to add a ssh key for SciNet to your github. 
+Note: for this to work - you need to add a ssh key for SciNet to your github.
  - [instructions here for creating the key]()
 
 ### The final structure this repo is coded to work with
@@ -165,7 +165,7 @@ module load singularity/3.8.0
 cd ${BASEDIR}/code/openneuro_preproc
 git pull
 
-## calculate the length of the array-job given 
+## calculate the length of the array-job given
 SUB_SIZE=5
 N_SUBJECTS=$(( $( wc -l ${BASEDIR}/${OPENNEURO_DSID}/bids/participants.tsv | cut -f1 -d' ' ) - 1 ))
 array_job_length=$(echo "$N_SUBJECTS/${SUB_SIZE}" | bc)
@@ -277,7 +277,7 @@ image_list.sort()
 for this_image in image_list:
     print('/n')
     print(this_image)
-    display(Image(filename=this_image)) 
+    display(Image(filename=this_image))
 ```
 
 copying all the fmriprep QA images into one subdirectory
@@ -295,4 +295,57 @@ for subject in ${subjects}; do
  mkdir -p ${QA_dir}/${subject}/figures
  rsync -av ${FMRIPREP_dir}/${subject}/figures ${QA_dir}/${subject}/figures
 done
+```
+
+
+
+## Running dwi preprocessing
+
+Before running the script please run the FreeSurfer cortical reconstruction process
+
+```sh
+export FREESURFER_HOME=/Applications/freesurfer
+source $FREESURFER_HOME/SetUpFreeSurfer.sh
+export SUBJECTS_DIR=put/your/path/here
+## An example of running a subject through Freesurfer with a T2 image:
+recon-all -subject subjectname -i /path/to/input_volume -T2 /path/to/T2_volume -T2pial -all
+```
+
+Please note that if you have already run FMRIPREP, you will have the FreeSurfer cortical reconstruction as part of the output
+
+
+Once you have FreeSurfer cortical reconstruction folders ready, first you are going to create the atlas and register that with dwi b0.
+For doing that first create a parcel2use.txt file with the parcellation that you would like to use.
+
+```sh
+echo 'Schaefer2018_100Parcels_7Networks_order.annot' > parcel2use.txt
+```
+
+Then, using a similar command, please create a list with the subjects' folder name that you are going to preprocessing.
+There are different way for doing that. One possibility is nagivating to the FreeSurfer subjects' folder and typing the following command:
+
+```sh
+ls > subjList.txt
+```
+
+ A second possibility is run the following script:
+
+```sh
+ if [ ! -f subjList.txt ]; then
+ ls | grep ^sub- > subjList.txt
+ fi
+```
+
+Once these two .txt file has been created, you are ready for running the first dwi preprocessing.
+
+Specifically for creating the atlas please run:
+
+```sh
+04_dwi_creating_atlas
+```
+
+Once the atlas has been created please run the dwi preprocessing:
+
+```sh
+05_dwi_preproc
 ```
